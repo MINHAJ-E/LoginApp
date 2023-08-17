@@ -1,8 +1,11 @@
 // ignore_for_file: prefer_const_constructors
 // import 'dart:js';
 
+
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/home.dart';
+import 'package:flutter_application_1/Login%20screen/home.dart';
+import 'package:flutter_application_1/main.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ScreenLogin extends StatelessWidget {
   ScreenLogin({super.key, });
@@ -75,10 +78,13 @@ class ScreenLogin extends StatelessWidget {
     ));
   }
 
-  void checkLogin(BuildContext ctx) {
+  void checkLogin(BuildContext ctx) async{
     final username = usernamecontroller.text;
     final password = passwordcontroller.text;
     if (username == password) {
+      final _sharedpref = await SharedPreferences.getInstance();
+      await _sharedpref.setBool(SAVE_KEY_NAME, true);
+
       Navigator.of(ctx)
           .pushReplacement(MaterialPageRoute(builder: (ctx1) => ScreenHome()));
     } else {

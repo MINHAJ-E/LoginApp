@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/login.dart';
+import 'package:flutter_application_1/Login%20screen/login.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ScreenHome extends StatelessWidget {
   const ScreenHome({super.key});
@@ -33,7 +34,12 @@ class ScreenHome extends StatelessWidget {
     );
   }
 
-  signout(BuildContext ctx) {
+  signout(BuildContext ctx)async {
+
+    final _sharedpref = await SharedPreferences.getInstance();
+      await _sharedpref.clear();
+
+
     Navigator.of(ctx).pushAndRemoveUntil(
         MaterialPageRoute(builder: (ctx1) => ScreenLogin()), (route) => false);
   }

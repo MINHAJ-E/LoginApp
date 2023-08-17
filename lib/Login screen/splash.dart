@@ -1,6 +1,9 @@
 // ignore_for_file: prefer_const_constructors
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/login.dart';
+import 'package:flutter_application_1/Login%20screen/home.dart';
+import 'package:flutter_application_1/Login%20screen/login.dart';
+import 'package:flutter_application_1/main.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Screensplash extends StatefulWidget {
   const Screensplash({super.key});
@@ -11,13 +14,14 @@ class Screensplash extends StatefulWidget {
 
 class _ScreensplashState extends State<Screensplash> {
   @override
-  void initState() {
+  void initState() { 
+   checkUserLoggedIn();
     super.initState();
   }
 
   @override
   void didChangeDependencies() {
-    gotoLogin();
+   
     super.didChangeDependencies();
   }
 
@@ -42,5 +46,16 @@ class _ScreensplashState extends State<Screensplash> {
     await Future.delayed(Duration(seconds: 3));
     Navigator.of(context)
         .pushReplacement(MaterialPageRoute(builder: (ctx) => ScreenLogin()));
+  }
+//shred preferance
+
+  Future<void>checkUserLoggedIn()async{
+    final _sharedpref = await SharedPreferences.getInstance();
+   final _userLoggedIn= _sharedpref.getBool(SAVE_KEY_NAME);
+   if(_userLoggedIn == null || _userLoggedIn == false){
+      gotoLogin();
+   }else{
+      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (ctx1)=>ScreenHome()));
+   }
   }
 }
